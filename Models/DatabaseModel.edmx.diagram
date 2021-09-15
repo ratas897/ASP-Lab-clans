@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="7fdca40ab9184220a6024ee3c9bb85eb" Name="Diagram1">
+        <EntityTypeShape EntityType="databaseąModel.Clan_member" Width="1.5" PointX="5.375" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="databaseąModel.Clan_roles" Width="1.5" PointX="8" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="databaseąModel.User" Width="1.5" PointX="5.375" PointY="7.25" IsExpanded="true" />
+        <AssociationConnector Association="databaseąModel.FK_Clan_member_Clan_roles" ManuallyRouted="false" />
+        <AssociationConnector Association="databaseąModel.FK_Clan_member_Users" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="databaseąModel.Clan" Width="1.5" PointX="0.75" PointY="1.125" />
+        <AssociationConnector Association="databaseąModel.FK_Clan_member_Clan" />
+        <EntityTypeShape EntityType="databaseąModel.Message" Width="1.5" PointX="2.5" PointY="7.125" />
+        <AssociationConnector Association="databaseąModel.FK_Messages_Clan" />
+        <AssociationConnector Association="databaseąModel.FK_Messages_Users" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

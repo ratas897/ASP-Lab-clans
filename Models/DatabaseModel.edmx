@@ -1,0 +1,371 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="databaseąModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Clan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clan_name" Type="varchar" MaxLength="50" />
+          <Property Name="Clan_tag" Type="varchar" MaxLength="4" />
+          <Property Name="Clan_leader" Type="varchar" MaxLength="50" />
+          <Property Name="Clan_message" Type="varchar" MaxLength="500" />
+          <Property Name="Clan_total_members" Type="int" />
+          <Property Name="Clan_message_inside" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Clan_member">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="User_ID" Type="int" />
+          <Property Name="Clan_ID" Type="int" />
+          <Property Name="Role_ID" Type="int" />
+        </EntityType>
+        <EntityType Name="Clan_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clan_role" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Messages">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Clan_ID" Type="int" />
+          <Property Name="sender" Type="int" />
+          <Property Name="message" Type="varchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Username" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="254" Nullable="false" />
+          <Property Name="Dateofbirth" Type="date" />
+          <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Clan_member_Clan">
+          <End Role="Clan" Type="Self.Clan" Multiplicity="0..1" />
+          <End Role="Clan_member" Type="Self.Clan_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clan_member">
+              <PropertyRef Name="Clan_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clan_member_Clan_roles">
+          <End Role="Clan_roles" Type="Self.Clan_roles" Multiplicity="0..1" />
+          <End Role="Clan_member" Type="Self.Clan_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clan_roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Clan_member">
+              <PropertyRef Name="Role_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clan_member_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Clan_member" Type="Self.Clan_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Clan_member">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_Clan">
+          <End Role="Clan" Type="Self.Clan" Multiplicity="0..1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="Clan_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Messages" Type="Self.Messages" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Messages">
+              <PropertyRef Name="sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="databaseąModelStoreContainer">
+          <EntitySet Name="Clan" EntityType="Self.Clan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clan_member" EntityType="Self.Clan_member" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clan_roles" EntityType="Self.Clan_roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Messages" EntityType="Self.Messages" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Clan_member_Clan" Association="Self.FK_Clan_member_Clan">
+            <End Role="Clan" EntitySet="Clan" />
+            <End Role="Clan_member" EntitySet="Clan_member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clan_member_Clan_roles" Association="Self.FK_Clan_member_Clan_roles">
+            <End Role="Clan_roles" EntitySet="Clan_roles" />
+            <End Role="Clan_member" EntitySet="Clan_member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clan_member_Users" Association="Self.FK_Clan_member_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Clan_member" EntitySet="Clan_member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_Clan" Association="Self.FK_Messages_Clan">
+            <End Role="Clan" EntitySet="Clan" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_Users" Association="Self.FK_Messages_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Messages" EntitySet="Messages" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="databaseąModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Clan_member">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="User_ID" Type="Int32" />
+          <Property Name="Clan_ID" Type="Int32" />
+          <Property Name="Role_ID" Type="Int32" />
+          <NavigationProperty Name="Clan_roles" Relationship="Self.FK_Clan_member_Clan_roles" FromRole="Clan_member" ToRole="Clan_roles" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Clan_member_Users" FromRole="Clan_member" ToRole="Users" />
+          <NavigationProperty Name="Clan" Relationship="databaseąModel.FK_Clan_member_Clan" FromRole="Clan_member" ToRole="Clan" />
+        </EntityType>
+        <EntityType Name="Clan_roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="Clan_role" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Clan_member" Relationship="Self.FK_Clan_member_Clan_roles" FromRole="Clan_roles" ToRole="Clan_member" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="UserID" />
+          </Key>
+          <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="254" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Dateofbirth" Type="DateTime" Precision="0" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Clan_member" Relationship="Self.FK_Clan_member_Users" FromRole="Users" ToRole="Clan_member" />
+          <NavigationProperty Name="Messages" Relationship="databaseąModel.FK_Messages_Users" FromRole="User" ToRole="Message" />
+        </EntityType>
+        <Association Name="FK_Clan_member_Clan_roles">
+          <End Role="Clan_roles" Type="Self.Clan_roles" Multiplicity="0..1" />
+          <End Role="Clan_member" Type="Self.Clan_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clan_roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="Clan_member">
+              <PropertyRef Name="Role_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clan_member_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="0..1" />
+          <End Role="Clan_member" Type="Self.Clan_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Clan_member">
+              <PropertyRef Name="User_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Database1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Clan_member" EntityType="Self.Clan_member" />
+          <EntitySet Name="Clan_roles" EntityType="Self.Clan_roles" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_Clan_member_Clan_roles" Association="Self.FK_Clan_member_Clan_roles">
+            <End Role="Clan_roles" EntitySet="Clan_roles" />
+            <End Role="Clan_member" EntitySet="Clan_member" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clan_member_Users" Association="Self.FK_Clan_member_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Clan_member" EntitySet="Clan_member" />
+          </AssociationSet>
+          <EntitySet Name="Clans" EntityType="databaseąModel.Clan" />
+          <AssociationSet Name="FK_Clan_member_Clan" Association="databaseąModel.FK_Clan_member_Clan">
+            <End Role="Clan" EntitySet="Clans" />
+            <End Role="Clan_member" EntitySet="Clan_member" />
+          </AssociationSet>
+          <EntitySet Name="Messages" EntityType="databaseąModel.Message" />
+          <AssociationSet Name="FK_Messages_Clan" Association="databaseąModel.FK_Messages_Clan">
+            <End Role="Clan" EntitySet="Clans" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Messages_Users" Association="databaseąModel.FK_Messages_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Message" EntitySet="Messages" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Clan">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clan_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Clan_tag" Type="String" MaxLength="4" FixedLength="false" Unicode="false" />
+          <Property Name="Clan_leader" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Clan_message" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Clan_member" Relationship="databaseąModel.FK_Clan_member_Clan" FromRole="Clan" ToRole="Clan_member" />
+          <Property Name="Clan_total_members" Type="Int32" />
+          <NavigationProperty Name="Messages" Relationship="databaseąModel.FK_Messages_Clan" FromRole="Clan" ToRole="Message" />
+          <Property Name="Clan_message_inside" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <Association Name="FK_Clan_member_Clan">
+          <End Type="databaseąModel.Clan" Role="Clan" Multiplicity="0..1" />
+          <End Type="databaseąModel.Clan_member" Role="Clan_member" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Clan_member">
+              <PropertyRef Name="Clan_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Message">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Clan_ID" Type="Int32" />
+          <Property Name="sender" Type="Int32" />
+          <Property Name="message1" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Clan" Relationship="databaseąModel.FK_Messages_Clan" FromRole="Message" ToRole="Clan" />
+          <NavigationProperty Name="User" Relationship="databaseąModel.FK_Messages_Users" FromRole="Message" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Messages_Clan">
+          <End Type="databaseąModel.Clan" Role="Clan" Multiplicity="0..1" />
+          <End Type="databaseąModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clan">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="Clan_ID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Messages_Users">
+          <End Type="databaseąModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="databaseąModel.Message" Role="Message" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Message">
+              <PropertyRef Name="sender" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="databaseąModelStoreContainer" CdmEntityContainer="Database1Entities">
+          <EntitySetMapping Name="Clan_member">
+            <EntityTypeMapping TypeName="databaseąModel.Clan_member">
+              <MappingFragment StoreEntitySet="Clan_member">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="User_ID" ColumnName="User_ID" />
+                <ScalarProperty Name="Clan_ID" ColumnName="Clan_ID" />
+                <ScalarProperty Name="Role_ID" ColumnName="Role_ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clan_roles">
+            <EntityTypeMapping TypeName="databaseąModel.Clan_roles">
+              <MappingFragment StoreEntitySet="Clan_roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Clan_role" ColumnName="Clan_role" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="databaseąModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Username" ColumnName="Username" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Dateofbirth" ColumnName="Dateofbirth" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clans">
+            <EntityTypeMapping TypeName="databaseąModel.Clan">
+              <MappingFragment StoreEntitySet="Clan">
+                <ScalarProperty Name="Clan_message_inside" ColumnName="Clan_message_inside" />
+                <ScalarProperty Name="Clan_total_members" ColumnName="Clan_total_members" />
+                <ScalarProperty Name="Clan_message" ColumnName="Clan_message" />
+                <ScalarProperty Name="Clan_leader" ColumnName="Clan_leader" />
+                <ScalarProperty Name="Clan_tag" ColumnName="Clan_tag" />
+                <ScalarProperty Name="Clan_name" ColumnName="Clan_name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Messages">
+            <EntityTypeMapping TypeName="databaseąModel.Message">
+              <MappingFragment StoreEntitySet="Messages">
+                <ScalarProperty Name="message1" ColumnName="message" />
+                <ScalarProperty Name="sender" ColumnName="sender" />
+                <ScalarProperty Name="Clan_ID" ColumnName="Clan_ID" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

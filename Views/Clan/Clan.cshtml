@@ -1,0 +1,27 @@
+﻿@using ASP_Lab_clans.Models;
+
+<!DOCTYPE html>
+<html>
+@{
+    ViewBag.Title = "Clan";
+}
+@foreach (var Clan_member in Model) {
+<h1>Clan @Clan_member.Clan.Clan_name</h1>
+<hr />
+<h2>Message</h2>
+<h2>@Clan_member.Clan.Clan_message_inside</h2>
+    break;
+}
+<hr />
+<h3>All users</h3>
+@foreach (var Clan_member in Model)
+{
+    <p>
+        @Clan_member.User.Username
+        -
+        @Clan_member.Clan_roles.Clan_role
+    </p>
+}
+@Html.ActionLink("Leave clan", "Leaveclan", "Clan")
+
+</html>
